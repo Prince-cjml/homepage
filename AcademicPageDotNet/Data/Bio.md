@@ -1,3 +1,3 @@
-I am currently a first year PhD student in the [Department&nbsp;of&nbsp;Automation](https://www.au.tsinghua.edu.cn/) at <a href="https://www.tsinghua.edu.cn">Huatsing&nbsp;University</a>. My research interests lie in the intersection of 3D computer vision, computer graphics, and robotics.
+I am a second-year undergraduate student at Yuanpei College, Peking University. My research interests lie at the intersection of robotics and cognition, with a current focus on robot learning, multimodal perception, dexterous manipulation, and robotic tool design.
 
-You can write your *bio* in **Markdown** here. HTML tags are supported.
+I conduct research closely with [CoRe Lab](https://pku.ai/) at the [Institute for Artificial Intelligence, Peking University](https://www.ai.pku.edu.cn/en/), under the guidance of [Dr. Yixin Zhu](https://yzhu.io/). Broadly, my goal is to build robotic systems that exhibit genuinely cognitive and generalizable intelligence.

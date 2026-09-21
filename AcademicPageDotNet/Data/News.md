@@ -1,2 +1,2 @@
-- **Two papers** got accepted by the **V**anilla **C**ake and **P**izza **R**ecognition Conference (VCPR) 2023.
-- I will join the V1sion Lab, Dept of Automation, Huatsing University.
+- Sep. 2026 - **One paper** was submitted to **ICRA 2027**.
+- Dec. 2025 - Joined the **[CoRe Lab](https://pku.ai)**.

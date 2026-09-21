@@ -49,3 +49,17 @@ Recheck dependencies with:
 ```bash
 ./scripts/dotnet.sh list "$PWD/AcademicPageDotNet.sln" package --vulnerable --include-transitive
 ```
+
+## Editing the homepage
+
+See [the content editing guide](docs/EDITING.md) for profile settings, portrait and CV files, Markdown biography/news, publication JSON, author flags, and design files.
+
+## Static website / Cloudflare Pages
+
+The current deployable snapshot is in **`site/`**. Connect this GitHub repository
+in Cloudflare Pages with branch `main`, framework **None**, build command
+`exit 0`, and output directory **`site`**. No .NET runtime is needed on Cloudflare.
+See [deployment and export instructions](docs/CLOUDFLARE.md).
+
+After editing source content or styles, run `python3 scripts/export-static.py`
+and commit the updated `site/` directory along with the source changes.

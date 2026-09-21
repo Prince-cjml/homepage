@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using System.Text;
@@ -15,6 +15,7 @@ namespace AcademicPageDotNet.Pages
         public Dictionary<string, string?> Links = new();
         public string BioHtmlString = "";
         public string NewsHtmlString = "";
+        public string AcknowledgementHtmlString = "";
         public IndexModel(ILogger<IndexModel> logger, IConfiguration config)
         {
             this._config = config;
@@ -40,6 +41,14 @@ namespace AcademicPageDotNet.Pages
                 }
             }
             catch { NewsHtmlString = "Failed to load the news markdown file..."; }
+
+            var environment = HttpContext.RequestServices.GetRequiredService<IWebHostEnvironment>();
+            var acknowledgementPath = Path.Combine(environment.ContentRootPath, "Data", "Acknowledgement.md");
+            if (System.IO.File.Exists(acknowledgementPath))
+            {
+                AcknowledgementHtmlString = Markdig.Markdown.ToHtml(System.IO.File.ReadAllText(acknowledgementPath, Encoding.UTF8));
+            }
+
         }
 
         public void OnGet()

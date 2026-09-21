@@ -1,65 +1,45 @@
-﻿@page
+@page
 @model IndexModel
 @{
     ViewData["Title"] = "Home";
 }
-
-<div class="text-left">
-    <table>
-        <tr>
-            <td style="padding:2.5%;width:35%;max-width:35%">
-                <img src="@Model.Personal["AvatarUrl"]" style="width:100%;max-width:100%" alt="profile photo">
-            </td>
-            <td style="padding:2.5%;width:65%;vertical-align:middle">
-                <h3 class="text-center" style="font-size:2.0rem">@Model.Personal["Name"]</h3>
-                <h5 class="text-center" style="font-size:1.0rem">@Model.Personal["Role"] at @Model.Personal["Institute"]</h5>
-                @Html.Raw(@Model.BioHtmlString)
-            </td>
-        </tr>
-    </table>
-
-
-    <div class="container">
-        <section class="text-center mb-5">
-            @if (Model.Personal["Email"] != "")
+<section class="profile @(string.IsNullOrWhiteSpace(Model.Personal.GetValueOrDefault("AvatarUrl")) ? "profile-no-image" : "")" aria-labelledby="profile-name">
+    @if (!string.IsNullOrWhiteSpace(Model.Personal.GetValueOrDefault("AvatarUrl")))
+    {
+        <div class="portrait-frame">
+            <img class="portrait" src="@Model.Personal["AvatarUrl"]" asp-append-version="true" alt="Portrait of @Model.Personal["Name"]" width="640" height="720" />
+        </div>
+    }
+    <div class="profile-copy">
+        <h1 id="profile-name">@Model.Personal["Name"]</h1>
+        <p class="affiliation">@Model.Personal["Institute"]</p>
+        <div class="prose biography">@Html.Raw(Model.BioHtmlString)</div>
+        <div class="profile-links" aria-label="Contact and academic profiles">
+            @if (!string.IsNullOrWhiteSpace(Model.Personal.GetValueOrDefault("Email")))
             {
-                <a target="_blank" href="mailto:@Model.Personal["Email"]" class="text-white me-4"><i class="bi bi-envelope-fill"></i></a>
+                <a href="mailto:@Model.Personal["Email"]">Email <span aria-hidden="true">↗</span></a>
             }
-            @if (Model.Links["CV"] != "")
+            @foreach (var (label, url) in Model.Links)
             {
-                <a target="_blank" href="@Model.Links["CV"]" class="text-white me-4"><i class="ai ai-cv"></i></a>
+                if (!string.IsNullOrWhiteSpace(url))
+                {
+                    <a href="@url" target="_blank" rel="noopener noreferrer">@(label == "GoogleScholar" ? "Google Scholar" : label) <span aria-hidden="true">↗</span></a>
+                }
             }
-            @if (Model.Links["GitHub"] != "")
-            {
-                <a target="_blank" href="@Model.Links["GitHub"]" class="text-white me-4"><i class="bi bi-github"></i></a>
-            }
-            @if (Model.Links["Twitter"] != "")
-            {
-                <a target="_blank" href="@Model.Links["Twitter"]" class="text-white me-4"><i class="bi bi-twitter"></i></a>
-            }
-            @if (Model.Links["GoogleScholar"] != "")
-            {
-                <a target="_blank" href="@Model.Links["GoogleScholar"]" class="text-white me-4"><i class="ai ai-google-scholar"></i></a>
-            }
-            @if (Model.Links["LinkedIn"] != "")
-            {
-                <a target="_blank" href="@Model.Links["LinkedIn"]" class="text-white me-4"><i class="bi bi-linkedin"></i></a>
-            }
-            @if (Model.Links["ORCID"] != "")
-            {
-                <a target="_blank" href="@Model.Links["ORCID"]" class="text-white me-4"><i class="ai ai-orcid"></i></a>
-            }
-            @if (Model.Links["Instagram"] != "")
-            {
-                <a target="_blank" href="@Model.Links["Instagram"]" class="text-white me-4"><i class="bi bi-instagram"></i></a>
-            }
-            @if (Model.Links["Photography"] != "")
-            {
-                <a target="_blank" href="@Model.Links["Photography"]" class="text-white me-4"><i class="bi bi-images"></i></a>
-            }
-        </section>
-
-        <h3>News</h3>
-        @Html.Raw(@Model.NewsHtmlString)
+        </div>
     </div>
-</div>
+
+</section>
+<section class="news-section" aria-labelledby="news-heading">
+    <div class="section-heading">
+        <h2 id="news-heading">News &amp; updates</h2>
+        <a class="text-link" asp-page="/Research">View research <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="prose news-list">@Html.Raw(Model.NewsHtmlString)</div>
+</section>
+<section class="news-section acknowledgement-section" aria-labelledby="acknowledgement-heading">
+    <div class="section-heading">
+        <h2 id="acknowledgement-heading">Acknowledgement</h2>
+    </div>
+    <div class="prose acknowledgement-copy">@Html.Raw(Model.AcknowledgementHtmlString)</div>
+</section>

@@ -1,93 +1,82 @@
-﻿@page
+@page
 @using AcademicPageDotNet.Models
 @model AcademicPageDotNet.Pages.PublicationsModel
 @{
     ViewData["Title"] = "Research";
 }
-
-<br />
-<h1>@ViewData["Title"]</h1>
-<br />
-
+<header class="page-heading">
+    <p class="eyebrow">Research</p>
+    <h1>Publications &amp; preprints<span class="accent">.</span></h1>
+    <p class="author-legend">* Equal contribution <span aria-hidden="true">/</span> † Corresponding author</p>
+</header>
 @{
-    void MakePublicationCard(PublicationItem publication) {
-        <div class="card mb-3"
-             data-bs-theme="dark"
-             @if (publication.Highlight ?? false)
-             {
-                @Html.Raw("style = \"border:2px solid grey;\"")
-             }>
-            <img src="@publication.TeaserUrl" class="card-img-top" alt="teaser">
-            <div class="card-body">
-                <h4 class="card-title">
-                    @if (publication.Highlight ?? false)
+    void RenderPublication(PublicationItem publication)
+    {
+        <article class="publication @(publication.Highlight == true ? "publication-highlight" : "") @(string.IsNullOrWhiteSpace(publication.TeaserUrl) ? "publication-no-image" : "")">
+            @if (!string.IsNullOrWhiteSpace(publication.TeaserUrl))
+            {
+                <div class="publication-image">
+                    <img src="@publication.TeaserUrl" alt="Research illustration for @publication.Title" loading="lazy" width="640" height="400" />
+                </div>
+            }
+            <div class="publication-copy">
+                <p class="publication-venue">@(publication.Preprint == true ? "Preprint" : publication.PublicationName)
+                    @if (publication.Highlight == true) { <span class="selected-label">Selected</span> }
+                </p>
+                <h3>@publication.Title</h3>
+                <p class="authors">
+                    @foreach (var author in Model.GetAuthorLabels(publication))
                     {
-                        @Html.Raw("&#9733;")
-                    }
-                    @publication.Title
-                </h4>
-                <p class="card-text">
-                    @*TODO: Optimize logic. (a label iff author.null is not null)*@
-                    @foreach (var author in @Model.GetAuthorLabels(publication))
-                    {
-                        @if ((author.Type & AuthorType.WebsiteOwner) != 0)
-                        {
-                            <strong><u>@author.Label</u></strong>
-                        }
-                        else
-                        {
-                            @if (author.Url == null)
+                        <span class="author">
+                            @if ((author.Type & AuthorType.WebsiteOwner) != 0)
                             {
-                                <label>@author.Label</label>
+                                <strong>@author.Label</strong>
+                            }
+                            else if (string.IsNullOrWhiteSpace(author.Url))
+                            {
+                                @author.Label
                             }
                             else
                             {
-                                <a href="@author.Url" target="_blank">@author.Label</a>
+                                <a href="@author.Url" target="_blank" rel="noopener noreferrer">@author.Label</a>
                             }
-                        }
-                        if ((author.Type & AuthorType.FirstAuthor) != 0)
-                        {
-                            @Html.Raw("*")
-                        }
-                        if ((author.Type & AuthorType.CorrespondingAuthor) != 0)
-                        {
-                            @Html.Raw("&#9993;")
-                        }
-                        @Html.Raw("&nbsp;")
+                            @if ((author.Type & AuthorType.FirstAuthor) != 0) { <sup>*</sup> }
+                            @if ((author.Type & AuthorType.CorrespondingAuthor) != 0) { <sup>†</sup> }
+                        </span>
                     }
                 </p>
-                <p class="card-text">@publication.Introduction</p>
-                @foreach (var link in @Model.GetExternalLabels(publication))
+                @if (!string.IsNullOrWhiteSpace(publication.Introduction))
                 {
-                    <a href="@link.Url" class="btn btn-outline-primary" tabindex="-1" role="button" aria-disabled="true" target="_blank"
-                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">@link.Label</a>
+                    <p class="publication-summary">@publication.Introduction</p>
                 }
-                @if (publication.Preprint ?? true)
-                {
-                    <p class="card-text"><small class="text-muted">Preprint.</small></p>
-                }
-                else
-                {
-                    <p class="card-text"><small class="text-muted">@publication.PublicationName</small></p>
-                }
+                <div class="publication-links" aria-label="Resources for @publication.Title">
+                    @foreach (var link in Model.GetExternalLabels(publication))
+                    {
+                        if (!string.IsNullOrWhiteSpace(link.Url))
+                        {
+                            <a href="@link.Url" target="_blank" rel="noopener noreferrer">@link.Label <span aria-hidden="true">↗</span></a>
+                        }
+                    }
+                </div>
             </div>
-        </div>
+        </article>
     }
 }
-
-
-<p>* equal contribution &hairsp; &#9993; corresponding author</p>
-
 @if (Model.hasPreprint)
 {
-    <h3>Preprints</h3>
-    @foreach (var publication in @Model.preprintList) MakePublicationCard(publication);
+    <section class="publication-section" aria-labelledby="preprint-heading">
+        <div class="section-heading"><h2 id="preprint-heading">Preprints <span class="count">@Model.preprintList.Count.ToString("D2")</span></h2></div>
+        @foreach (var publication in Model.preprintList) { RenderPublication(publication); }
+    </section>
 }
-
-
 @if (Model.hasPublication)
 {
-    <h3>Publications</h3>
-    @foreach (var publication in @Model.publicationList) MakePublicationCard(publication);
+    <section class="publication-section" aria-labelledby="publication-heading">
+        <div class="section-heading"><h2 id="publication-heading">Publications <span class="count">@Model.publicationList.Count.ToString("D2")</span></h2></div>
+        @foreach (var publication in Model.publicationList) { RenderPublication(publication); }
+    </section>
 }
-
+@if (!Model.hasPreprint && !Model.hasPublication)
+{
+    <p class="empty-state">Publications will be listed here as they become available.</p>
+}
