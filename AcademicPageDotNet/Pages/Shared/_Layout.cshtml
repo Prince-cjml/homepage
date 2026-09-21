@@ -2,6 +2,15 @@
 @{
     var pageTitle = ViewData["Title"]?.ToString() ?? "Home";
     var siteTitle = Config["WebsiteTitle"];
+    var isHome = pageTitle == "Home";
+
+    var description = isHome
+        ? "Xiyao Tian is an undergraduate researcher at Peking University working on robotics, robot learning, multimodal perception, dexterous manipulation, and robotic tool design."
+        : "Research projects and publications by Xiyao Tian in robotics, robot learning, multimodal perception, dexterous manipulation, and robotic tool design.";
+
+    var canonicalUrl = isHome
+        ? "https://xiyaotian.tech/"
+        : "https://xiyaotian.tech/research/";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -9,9 +18,43 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#101923" />
-    <title>@(pageTitle == "Home" ? siteTitle : $"{pageTitle} — {siteTitle}")</title>
+    <title>@(isHome ? "Xiyao Tian | Robotics Researcher at Peking University" : "Research | Xiyao Tian")</title>
+    <meta name="description" content="@description" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="@canonicalUrl" />
     <link rel="icon" type="image/png" href="~/images/logo.png" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @if (isHome)
+    {
+        <script type="application/ld+json">
+        {
+          "@@context": "https://schema.org",
+          "@@type": "ProfilePage",
+          "url": "https://xiyaotian.tech/",
+          "mainEntity": {
+            "@@type": "Person",
+            "@@id": "https://xiyaotian.tech/#person",
+            "name": "Xiyao Tian",
+            "alternateName": [
+              "田希尧",
+              "Tian Xiyao"
+            ],
+            "url": "https://xiyaotian.tech/",
+            "image": "https://xiyaotian.tech/images/tianxiyao.jpg",
+            "affiliation": {
+              "@@type": "CollegeOrUniversity",
+              "name": "Peking University",
+              "url": "https://www.pku.edu.cn/"
+            },
+            "sameAs": [
+              "https://github.com/Prince-cjml",
+              "https://www.linkedin.com/in/%E5%B8%8C%E5%B0%A7-%E7%94%B0-a9b8a4418/",
+              "https://orcid.org/0009-0005-8946-4171"
+            ]
+          }
+        }
+        </script>
+    }
 </head>
 <body>
     <a class="skip-link" href="#main-content">Skip to content</a>

@@ -121,9 +121,26 @@ with tempfile.TemporaryDirectory(prefix='homepage-export-') as temporary:
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Page not found</title><link rel="stylesheet" href="/css/site.css"></head>
 <body><main class="shell page-heading"><h1>Page not found.</h1>
-<p>The page may have moved. <a href="/">Return home</a>.</p></main></body></html>''')
+<p>The page may have moved. <a href="/">Return home</a>.</p></main></body></html>
+''')
     (staging / '_redirects').write_text('/Index / 301\n/Research /research/ 301\n/Research/ /research/ 301\n')
     (staging / '_headers').write_text('/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Cache-Control: public, max-age=0, must-revalidate\n')
+    (staging / 'robots.txt').write_text(
+        'User-agent: *\n'
+        'Allow: /\n'
+        '\n'
+        'Sitemap: https://xiyaotian.tech/sitemap.xml\n'
+    )
+    (staging / 'sitemap.xml').write_text('''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://xiyaotian.tech/</loc>
+  </url>
+  <url>
+    <loc>https://xiyaotian.tech/research/</loc>
+  </url>
+</urlset>
+''')
     for path in staging.rglob('*'):
         if path.is_file() and path.stat().st_size >= 25 * 1024 * 1024:
             raise RuntimeError(f'Asset exceeds Cloudflare Pages 25 MiB limit: {path}')
