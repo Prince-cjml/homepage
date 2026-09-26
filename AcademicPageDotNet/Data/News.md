@@ -1,2 +1,1 @@
-- Sep. 2026 - **One paper** was submitted to **ICRA 2027**.
 - Dec. 2025 - Joined the **[CoRe Lab](https://pku.ai)**.
