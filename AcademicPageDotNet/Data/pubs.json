@@ -18,7 +18,7 @@
       "Code": "https://github.com/Chenyinghan/HOT",
       "Video": "https://player.vimeo.com/video/1230686259"
     },
-    "Introduction": "HOT jointly designs tool structure, shape, and action from scratch through behavior-aware hierarchical optimization. Across four tool-use tasks, the optimized tools are 3D printed and successfully deployed on a real robot using actions found in simulation.",
+    "Introduction": "We build HOT, a hierarchical optimization framework that jointly designs robot tool structure, shape and actions from scratch.",
     "TeaserUrl": "/images/hot_teaser.png",
     "Highlight": false,
     "Preprint": true
