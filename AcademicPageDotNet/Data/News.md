@@ -1,1 +1,2 @@
+- **Sep 2026** - Check out our latest preprint on robot tool design [HOT: Hierarchical Optimization for Tool Design](https://arxiv.org/abs/2609.35479).
 - Dec. 2025 - Joined the **[CoRe Lab](https://pku.ai)**.

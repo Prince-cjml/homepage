@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "Title": "Robot Tool Design from Scratch via Behavior-Aware Hierarchical Optimization",
+    "Authors": {
+      "Yinghan Chen": 1,
+      "Xiyao Tian": 5,
+      "Yizan Dai": 0,
+      "Yuyang Li": 2,
+      "Yixin Zhu": 2
+    },
+    "PublishDate": "2026-09-28",
+    "PublicationName": "arXiv:2609.35479",
+    "State": "Preprint",
+    "Links": {
+      "arXiv": "https://arxiv.org/abs/2609.35479",
+      "PDF": "https://arxiv.org/pdf/2609.35479",
+      "Project": "https://hot.yinghanchen.com",
+      "Code": "https://github.com/Chenyinghan/HOT",
+      "Video": "https://player.vimeo.com/video/1230686259"
+    },
+    "Introduction": "HOT jointly designs tool structure, shape, and action from scratch through behavior-aware hierarchical optimization. Across four tool-use tasks, the optimized tools are 3D printed and successfully deployed on a real robot using actions found in simulation.",
+    "TeaserUrl": "/images/hot_teaser.png",
+    "Highlight": false,
+    "Preprint": true
+  }
+]
