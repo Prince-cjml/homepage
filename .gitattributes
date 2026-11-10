@@ -61,3 +61,7 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+# Generated WebGL bundles contain upstream shader strings with intentional whitespace.
+site/travel/assets/*.js -whitespace linguist-generated=true
+site/travel/assets/*.css linguist-generated=true

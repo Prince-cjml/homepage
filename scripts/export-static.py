@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Publish Razor pages, then export a standalone Cloudflare Pages site.
-Requires .NET 8, Python 3, and Pillow. Never touches an existing dev host.
+Requires .NET 8, Python 3, Pillow, and installed travel/ npm dependencies. Never touches an existing dev host.
 """
 import hashlib
+import json
 import os
 from pathlib import Path
 import re
@@ -73,13 +74,24 @@ with tempfile.TemporaryDirectory(prefix='homepage-export-') as temporary:
 
     staging = work / 'site'
     staging.mkdir()
+    # Rebuild the read-only travel app before replacing the deployed snapshot.
+    # Never silently erase trips when exporting from a fresh clone without local data.
+    travel_source = ROOT / 'travel'
+    data_dir = Path(os.environ.get('TRAVEL_DATA_DIR', str(travel_source / 'data'))).resolve()
+    previous = OUTPUT / 'travel/data/travel.json'
+    if not (data_dir / 'travel.json').exists() and previous.exists():
+        if json.loads(previous.read_text()).get('places'):
+            raise RuntimeError('Travel editor data is missing. Restore travel/data before exporting.')
+    subprocess.run(['npm', 'run', 'build:site'], cwd=travel_source, check=True,
+                   env=dict(os.environ, TRAVEL_DATA_DIR=str(data_dir)))
+    shutil.copytree(travel_source / 'site', staging / 'travel')
     # Copy only resources actually used by these pages, never Data/config/database.
     for html in pages.values():
         refs = References()
         refs.feed(html)
         for url in refs.urls:
             parts = urlsplit(url)
-            if parts.scheme or parts.netloc or not parts.path or parts.path in ('/', '/research/'):
+            if parts.scheme or parts.netloc or not parts.path or parts.path in ('/', '/research/', '/travel/'):
                 continue
             relative = unquote(parts.path).lstrip('/')
             source = (published / 'wwwroot' / relative).resolve()
@@ -123,7 +135,7 @@ with tempfile.TemporaryDirectory(prefix='homepage-export-') as temporary:
 <body><main class="shell page-heading"><h1>Page not found.</h1>
 <p>The page may have moved. <a href="/">Return home</a>.</p></main></body></html>
 ''')
-    (staging / '_redirects').write_text('/Index / 301\n/Research /research/ 301\n/Research/ /research/ 301\n')
+    (staging / '_redirects').write_text('/Index / 301\n/Research /research/ 301\n/Research/ /research/ 301\n/travel /travel/ 301\n')
     (staging / '_headers').write_text('/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Cache-Control: public, max-age=0, must-revalidate\n')
     (staging / 'robots.txt').write_text(
         'User-agent: *\n'
@@ -138,6 +150,9 @@ with tempfile.TemporaryDirectory(prefix='homepage-export-') as temporary:
   </url>
   <url>
     <loc>https://xiyaotian.tech/research/</loc>
+  </url>
+  <url>
+    <loc>https://xiyaotian.tech/travel/</loc>
   </url>
 </urlset>
 ''')

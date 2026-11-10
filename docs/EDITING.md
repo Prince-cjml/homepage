@@ -102,3 +102,9 @@ Alternatively stop and rerun the normal development command in `README.md` after
 ## Current portrait and favicon
 
 Edit `AcademicPageDotNet/wwwroot/images/tianxiyao.jpg` for the live portrait and `AcademicPageDotNet/wwwroot/images/logo.png` for the browser icon. Files in `Data/` are separate originals, not the served images. Save and refresh. Both image URLs include a content version to avoid stale browser caching.
+
+## Travel map
+
+Run `cd travel && npm run dev` from the repository root to edit your trips and
+photos in the local browser editor. See [travel/README.md](../travel/README.md).
+The live `/travel/` page is read-only; changes go live after exporting and pushing.

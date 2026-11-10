@@ -63,3 +63,10 @@ See [deployment and export instructions](docs/CLOUDFLARE.md).
 
 After editing source content or styles, run `python3 scripts/export-static.py`
 and commit the updated `site/` directory along with the source changes.
+
+## Travel map
+
+The travel app is served at `/travel/`. Its editable source lives in `travel/`.
+Run `npm ci --prefix travel` once before exporting; the normal static exporter
+now builds the homepage and travel app together. See [travel/README.md](travel/README.md)
+for the local trip/photo editor and publishing workflow.

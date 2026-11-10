@@ -61,3 +61,11 @@ External links and externally hosted images stay external.
 Routes: `/` is Home, `/research/` is Research. `_redirects` preserves the old
 `/Research` and `/Index` URLs on Cloudflare. Plain Python's preview server does
 not interpret Cloudflare's `_redirects` or `_headers` files.
+
+## Travel map at /travel/
+
+The React/Vite source is in `travel/`; its public read-only build is included in
+`site/travel/`. No separate Cloudflare project, Worker or DNS record is needed.
+Before exporting on a new machine, install Node.js 20.19+ and run `npm ci --prefix travel`.
+The regular `python3 scripts/export-static.py` command now rebuilds both apps.
+See [the travel editing guide](../travel/README.md) to add your trips and photos.
