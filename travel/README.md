@@ -1,8 +1,9 @@
-# Xiyao Tian’s Travel Map
+# Xiyao Tian's Travel Map
 
 Source for https://xiyaotian.tech/travel/, integrated into the academic homepage.
-The public site is read-only. It starts empty: no trips or photographs were
-imported, and no travel history has been inferred from academic affiliations.
+The public site is read-only. Visited places come from Xiyao’s supplied list;
+no trip dates or photographs are invented. The page is accessible directly at
+`/travel/` but is not linked from the academic homepage navigation.
 
 ## Edit trips and photos locally
 

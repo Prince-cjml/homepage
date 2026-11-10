@@ -9,4 +9,4 @@ export const asset = (p) => BASE + p;
 
 // Site title (top bar and browser tab): set in data/site.json, injected at build time
 /* global __SITE_TITLE__ */
-export const SITE_TITLE = typeof __SITE_TITLE__ === 'string' ? __SITE_TITLE__ : 'Xiyao Tian’s Travel Map';
+export const SITE_TITLE = typeof __SITE_TITLE__ === 'string' ? __SITE_TITLE__ : "Xiyao Tian's Travel Map";

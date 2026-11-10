@@ -1,9 +1,9 @@
 // Personal settings live next to your data (data/site.json), never in the code repo:
-//   { "title": "Xiyao Tian’s Travel Map", "repo": "git@github.com:you/my-travels.git", "domain": "travel.example.com" }
+//   { "title": "Xiyao Tian's Travel Map", "repo": "git@github.com:you/my-travels.git", "domain": "travel.example.com" }
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const DEFAULT_TITLE = 'Xiyao Tian’s Travel Map';
+export const DEFAULT_TITLE = "Xiyao Tian's Travel Map";
 
 export const dataDir = () => path.resolve(process.env.TRAVEL_DATA_DIR || 'data');
 const configFile = () => path.join(dataDir(), 'site.json');
